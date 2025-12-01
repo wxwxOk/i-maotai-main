@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # 后端服务
+  app:
+    build: ./server
+    container_name: imaotai-server
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/imaotai
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=${JWT_SECRET}
+      - WX_APPID=${WX_APPID}
+      - WX_SECRET=${WX_SECRET}
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - imaotai-network
+
+  # MySQL数据库
+  mysql:
+    image: mysql:8.0
+    container_name: imaotai-mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=imaotai
+      - TZ=Asia/Shanghai
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./server/prisma/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - imaotai-network
+
+  # Redis缓存
+  redis:
+    image: redis:7-alpine
+    container_name: imaotai-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - imaotai-network
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  imaotai-network:
+    driver: bridge

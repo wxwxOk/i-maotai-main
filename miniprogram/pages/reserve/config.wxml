@@ -1,0 +1,98 @@
+<!--pages/reserve/config.wxml-->
+<view class="container">
+  <!-- 商品选择 -->
+  <view class="section">
+    <view class="section-title">选择预约商品</view>
+    <view class="section-desc">最多可选择3个商品同时预约</view>
+
+    <view class="item-list">
+      <view
+        class="item-card {{selectedItems.includes(item.itemId) ? 'selected' : ''}}"
+        wx:for="{{items}}"
+        wx:key="itemId"
+        bindtap="toggleItem"
+        data-id="{{item.itemId}}"
+      >
+        <image class="item-image" src="{{item.pictureUrl}}" mode="aspectFill"></image>
+        <view class="item-info">
+          <text class="item-name">{{item.title}}</text>
+          <text class="item-price">¥{{item.price}}</text>
+        </view>
+        <view class="check-icon" wx:if="{{selectedItems.includes(item.itemId)}}">✓</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 门店类型 -->
+  <view class="section">
+    <view class="section-title">门店选择策略</view>
+
+    <radio-group bindchange="onShopTypeChange">
+      <view class="radio-item">
+        <radio value="1" checked="{{config.shopType === 1}}" color="#c41230"/>
+        <view class="radio-content">
+          <text class="radio-title">出货量最大</text>
+          <text class="radio-desc">选择本市出货量最大的门店，中签率可能更高</text>
+        </view>
+      </view>
+      <view class="radio-item">
+        <radio value="2" checked="{{config.shopType === 2}}" color="#c41230"/>
+        <view class="radio-content">
+          <text class="radio-title">距离最近</text>
+          <text class="radio-desc">选择距离您最近的门店，方便提货</text>
+        </view>
+      </view>
+    </radio-group>
+  </view>
+
+  <!-- 预约时间 -->
+  <view class="section">
+    <view class="section-title">预约时间</view>
+    <view class="section-desc">i茅台每天9:00开始预约，建议选择9:00-9:10</view>
+
+    <view class="time-picker">
+      <text class="time-prefix">9:</text>
+      <picker
+        mode="selector"
+        range="{{minuteOptions}}"
+        value="{{minuteIndex}}"
+        bindchange="onMinuteChange"
+      >
+        <view class="picker-value">
+          {{config.reserveMinute < 10 ? '0' + config.reserveMinute : config.reserveMinute}}
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="switch-item">
+      <text class="switch-label">随机分钟</text>
+      <switch
+        checked="{{config.randomMinute === 0}}"
+        bindchange="onRandomChange"
+        color="#c41230"
+      />
+    </view>
+    <text class="switch-desc">开启后将在9:00-9:30之间随机选择时间预约</text>
+  </view>
+
+  <!-- 自动旅行 -->
+  <view class="section">
+    <view class="section-title">小茅运</view>
+
+    <view class="switch-item">
+      <text class="switch-label">自动旅行</text>
+      <switch
+        checked="{{config.autoTravel === 1}}"
+        bindchange="onTravelChange"
+        color="#c41230"
+      />
+    </view>
+    <text class="switch-desc">开启后每天自动执行旅行任务获取小茅运</text>
+  </view>
+
+  <!-- 保存按钮 -->
+  <button class="save-btn" bindtap="saveConfig" loading="{{saving}}">
+    保存配置
+  </button>
+</view>

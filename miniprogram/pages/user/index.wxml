@@ -1,0 +1,82 @@
+<!--pages/user/index.wxml-->
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user-header">
+    <image class="avatar" src="{{userInfo.avatarUrl || '/assets/images/default-avatar.png'}}" mode="aspectFill"></image>
+    <view class="user-info">
+      <text class="nickname">{{userInfo.nickname || '微信用户'}}</text>
+      <text class="account-count">已绑定 {{accountCount}} 个i茅台账号</text>
+    </view>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-value">{{stats.totalReserve}}</text>
+      <text class="stat-label">累计预约</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value highlight">{{stats.winCount}}</text>
+      <text class="stat-label">中签次数</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{stats.winRate}}</text>
+      <text class="stat-label">中签率</text>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goAccountList">
+      <text class="menu-icon">👤</text>
+      <text class="menu-text">账号管理</text>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="goLogs">
+      <text class="menu-icon">📋</text>
+      <text class="menu-text">预约记录</text>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="subscribeMessage">
+      <text class="menu-icon">🔔</text>
+      <text class="menu-text">消息订阅</text>
+      <view class="menu-right">
+        <text class="menu-tip">{{subscribed ? '已订阅' : '未订阅'}}</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="menu-item" bindtap="showAbout">
+      <text class="menu-icon">ℹ️</text>
+      <text class="menu-text">关于</text>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="checkUpdate">
+      <text class="menu-icon">🔄</text>
+      <text class="menu-text">检查更新</text>
+      <view class="menu-right">
+        <text class="menu-tip">v{{version}}</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <button class="menu-item menu-btn" open-type="feedback">
+      <text class="menu-icon">💬</text>
+      <text class="menu-text">意见反馈</text>
+      <text class="menu-arrow">›</text>
+    </button>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer">
+    <text>本小程序仅供学习交流使用</text>
+    <text>使用本程序所产生的一切后果由用户自行承担</text>
+  </view>
+</view>

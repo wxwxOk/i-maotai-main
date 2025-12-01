@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git clone:*)",
+      "Bash(find:*)",
+      "Bash(node scripts/generate-icons.js:*)",
+      "Bash(node scripts/generate-real-icons.js:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(node scripts/svg-to-png.js:*)",
+      "Bash(mysql:*)",
+      "Bash(where:*)",
+      "Bash(dir:*)",
+      "Bash(dir \"C:\\xampp\\mysql\\bin\")",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker compose:*)",
+      "Bash(cmd /c \"docker --version\")",
+      "Bash(npm run start:dev:*)",
+      "Bash(ipconfig:*)",
+      "Bash(findstr:*)",
+      "WebFetch(domain:blog.csdn.net)",
+      "WebFetch(domain:sitoi.github.io)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

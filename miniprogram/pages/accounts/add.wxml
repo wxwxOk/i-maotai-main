@@ -1,0 +1,66 @@
+<!--pages/accounts/add.wxml-->
+<view class="container">
+  <view class="form-section">
+    <view class="section-title">添加i茅台账号</view>
+    <view class="section-desc">请输入您在i茅台APP注册的手机号</view>
+
+    <!-- 手机号输入 -->
+    <view class="form-item">
+      <text class="label">手机号</text>
+      <input
+        class="input"
+        type="number"
+        maxlength="11"
+        placeholder="请输入手机号"
+        value="{{mobile}}"
+        bindinput="onMobileInput"
+      />
+    </view>
+
+    <!-- 验证码输入 -->
+    <view class="form-item">
+      <text class="label">验证码</text>
+      <view class="code-input-wrap">
+        <input
+          class="input code-input"
+          type="number"
+          maxlength="6"
+          placeholder="请输入验证码"
+          value="{{code}}"
+          bindinput="onCodeInput"
+        />
+        <button
+          class="code-btn {{countdown > 0 ? 'disabled' : ''}}"
+          disabled="{{countdown > 0 || !isMobileValid}}"
+          bindtap="sendCode"
+        >
+          {{countdown > 0 ? countdown + 's' : '获取验证码'}}
+        </button>
+      </view>
+    </view>
+
+    <!-- 提示信息 -->
+    <view class="tips">
+      <text class="tips-icon">💡</text>
+      <text class="tips-text">验证码将发送到您的i茅台APP绑定手机</text>
+    </view>
+  </view>
+
+  <!-- 登录按钮 -->
+  <button
+    class="submit-btn {{canSubmit ? '' : 'disabled'}}"
+    disabled="{{!canSubmit || loading}}"
+    bindtap="login"
+  >
+    {{loading ? '登录中...' : '登录'}}
+  </button>
+
+  <!-- 说明 -->
+  <view class="notice">
+    <view class="notice-title">使用说明</view>
+    <view class="notice-item">1. 请确保已在i茅台APP完成注册</view>
+    <view class="notice-item">2. 验证码会发送到i茅台绑定的手机号</view>
+    <view class="notice-item">3. 登录后需要设置位置和预约商品</view>
+    <view class="notice-item">4. Token有效期30天，过期需重新登录</view>
+  </view>
+</view>

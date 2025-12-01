@@ -1,0 +1,49 @@
+<!--pages/accounts/list.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">账号管理</text>
+    <text class="subtitle">管理您的i茅台账号</text>
+  </view>
+
+  <!-- 账号列表 -->
+  <view class="account-list" wx:if="{{accounts.length > 0}}">
+    <view
+      class="account-item"
+      wx:for="{{accounts}}"
+      wx:key="id"
+      bindtap="goDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="account-info">
+        <view class="mobile-row">
+          <text class="mobile">{{item.mobileMask}}</text>
+          <view class="status-tag {{item.isExpired ? 'expired' : 'normal'}}">
+            {{item.isExpired ? 'Token已过期' : '正常'}}
+          </view>
+        </view>
+        <view class="location" wx:if="{{item.provinceName}}">
+          <text class="icon">📍</text>
+          <text>{{item.provinceName}} {{item.cityName}}</text>
+        </view>
+        <view class="location" wx:else>
+          <text class="icon">⚠️</text>
+          <text class="warn">未设置位置，请点击设置</text>
+        </view>
+      </view>
+      <view class="arrow">›</view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:else>
+    <image class="empty-icon" src="/assets/images/empty.png" mode="aspectFit"></image>
+    <text class="empty-text">暂无账号</text>
+    <text class="empty-desc">添加i茅台账号开始自动预约</text>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="add-btn" bindtap="goAdd">
+    <text class="add-icon">+</text>
+    <text class="add-text">添加账号</text>
+  </view>
+</view>

@@ -1,0 +1,51 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <text class="title">今日预约状态</text>
+    <text class="date">{{today}}</text>
+  </view>
+
+  <!-- 账号列表 -->
+  <view class="account-list" wx:if="{{accounts.length > 0}}">
+    <view class="account-card" wx:for="{{accounts}}" wx:key="id">
+      <view class="account-header">
+        <text class="mobile">{{item.mobileMask}}</text>
+        <text class="status {{item.status === 'success' ? 'success' : item.status === 'pending' ? 'pending' : 'failed'}}">
+          {{item.statusText}}
+        </text>
+      </view>
+
+      <view class="item-list">
+        <view class="item-row" wx:for="{{item.items}}" wx:for-item="product" wx:key="itemId">
+          <image class="item-icon" src="{{product.pictureUrl}}" mode="aspectFill"></image>
+          <text class="item-name">{{product.itemName}}</text>
+          <view class="item-status">
+            <text wx:if="{{product.status === 0}}" class="status-icon pending">⏳</text>
+            <text wx:elif="{{product.status === 1}}" class="status-icon success">✓</text>
+            <text wx:elif="{{product.status === 2}}" class="status-icon failed">✗</text>
+            <text wx:elif="{{product.status === 3}}" class="status-icon win">🎉</text>
+            <text class="status-text">{{product.statusText}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="account-footer">
+        <text class="shop-name">{{item.shopName}}</text>
+        <text class="reserve-time">{{item.reserveTime}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:else>
+    <image class="empty-icon" src="/assets/images/empty.png"></image>
+    <text class="empty-text">暂无账号，请先添加i茅台账号</text>
+  </view>
+
+  <!-- 添加账号按钮 -->
+  <view class="add-btn" bindtap="goAddAccount">
+    <text class="add-icon">+</text>
+    <text class="add-text">添加账号</text>
+  </view>
+</view>

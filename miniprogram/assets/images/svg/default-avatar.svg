@@ -1,0 +1,9 @@
+<!-- 默认头像 - 灰色用户图标 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <!-- 背景圆 -->
+  <circle cx="100" cy="100" r="100" fill="#e8e8e8"/>
+  <!-- 用户头部 -->
+  <circle cx="100" cy="75" r="35" fill="#bfbfbf"/>
+  <!-- 用户身体 -->
+  <ellipse cx="100" cy="170" rx="55" ry="45" fill="#bfbfbf"/>
+</svg>
