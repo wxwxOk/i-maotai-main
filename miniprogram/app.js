@@ -1,4 +1,6 @@
 // app.js
+const { BASE_URL } = require('./utils/request');
+
 App({
   onLaunch() {
     // 检查登录状态
@@ -31,7 +33,7 @@ App({
           if (res.code) {
             // 发送code到后端换取token
             wx.request({
-              url: 'http://192.168.5.235:3000/api/auth/wx-login',
+              url: BASE_URL + '/auth/wx-login',
               method: 'POST',
               data: { code: res.code },
               success: (response) => {

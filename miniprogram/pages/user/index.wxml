@@ -2,7 +2,7 @@
 <view class="container">
   <!-- 用户信息 -->
   <view class="user-header">
-    <image class="avatar" src="{{userInfo.avatarUrl || '/assets/images/default-avatar.png'}}" mode="aspectFill"></image>
+    <image class="avatar" src="{{userInfo.avatarUrl || '/assets/images/svg/default-avatar.svg'}}" mode="aspectFill"></image>
     <view class="user-info">
       <text class="nickname">{{userInfo.nickname || '微信用户'}}</text>
       <text class="account-count">已绑定 {{accountCount}} 个i茅台账号</text>

@@ -36,7 +36,7 @@
 
   <!-- 空状态 -->
   <view class="empty" wx:else>
-    <image class="empty-icon" src="/assets/images/empty.png" mode="aspectFit"></image>
+    <image class="empty-icon" src="/assets/images/svg/empty.svg" mode="aspectFit"></image>
     <text class="empty-text">暂无账号</text>
     <text class="empty-desc">添加i茅台账号开始自动预约</text>
   </view>

@@ -2,7 +2,7 @@
  * API请求封装
  */
 
-const BASE_URL = 'http://192.168.5.235:3000/api'; // 本地开发服务器地址
+const BASE_URL = 'http://172.16.48.140:3000/api'; // 本地开发服务器地址
 
 // 请求拦截
 const request = (options) => {

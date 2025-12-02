@@ -24,7 +24,19 @@
       "Bash(ipconfig:*)",
       "Bash(findstr:*)",
       "WebFetch(domain:blog.csdn.net)",
-      "WebFetch(domain:sitoi.github.io)"
+      "WebFetch(domain:sitoi.github.io)",
+      "Bash(timeout 60 docker compose:*)",
+      "Bash(timeout 30 bash:*)",
+      "Bash(pushd:*)",
+      "Bash(popd)",
+      "Bash(docker port:*)",
+      "Bash(docker stop:*)",
+      "Bash(docker rm:*)",
+      "Bash(npx prisma db push:*)",
+      "Bash(netstat:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd /c \"taskkill /PID 2344 /F\")",
+      "Bash(npx kill-port 3000)"
     ],
     "deny": [],
     "ask": []
