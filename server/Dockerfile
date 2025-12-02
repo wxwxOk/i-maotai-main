@@ -1,4 +1,7 @@
-FROM node:18-alpine
+FROM node:18-slim
+
+# 安装OpenSSL和其他Prisma依赖
+RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 

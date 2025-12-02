@@ -44,7 +44,14 @@
       "Bash(cmd /c \"C:\\xampp\\mysql\\bin\\mysql.exe -uroot -proot -e \"\"SELECT id, mobile, province_name, city_name, item_codes FROM imaotai.mt_accounts a LEFT JOIN imaotai.reservation_configs c ON a.id = c.account_id;\"\"\")",
       "Bash(\"C:\\xampp\\mysql\\bin\\mysql.exe\" -uroot -proot -e \"SELECT id, mobile, province_name, city_name FROM imaotai.mt_accounts;\")",
       "Bash(cmd /c \"\"\"C:\\xampp\\mysql\\bin\\mysql.exe\"\" -uroot -proot imaotai -e \"\"SELECT id, mobile, province_name, city_name FROM mt_accounts;\"\"\")",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(\"C:\\xampp\\mysql\\bin\\mysql.exe\" -uroot -proot -e \"SHOW DATABASES LIKE ''imaotai'';\")",
+      "Bash(cmd /c \"\"C:xamppmysqlbinmysql.exe\" -uroot -proot -e \"SHOW DATABASES LIKE 'imaotai')",
+      "Bash(\"\")",
+      "Bash(docker:*)",
+      "Bash(timeout 300 docker compose:*)",
+      "Bash(npm run build:*)",
+      "Bash(timeout 60 bash:*)"
     ],
     "deny": [],
     "ask": []
