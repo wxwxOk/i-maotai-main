@@ -19,7 +19,8 @@ const request = (options) => {
         ...options.header
       },
       success: (res) => {
-        if (res.statusCode === 200) {
+        // 判断HTTP状态码是否为成功状态 (2xx)
+        if (res.statusCode >= 200 && res.statusCode < 300) {
           resolve(res.data);
         } else if (res.statusCode === 401) {
           // Token过期，跳转登录
