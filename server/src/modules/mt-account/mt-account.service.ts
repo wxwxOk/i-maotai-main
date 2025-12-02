@@ -83,7 +83,7 @@ export class MtAccountService {
       await this.prisma.reservationConfig.create({
         data: {
           accountId: account.id,
-          itemCodes: '10214', // 默认飞天茅台
+          itemCodes: '2478', // 默认贵州茅台酒（珍品）
           shopType: 1,
           reserveMinute: 9,
           randomMinute: 0,
@@ -175,7 +175,7 @@ export class MtAccountService {
       config = await this.prisma.reservationConfig.create({
         data: {
           accountId,
-          itemCodes: '10214',
+          itemCodes: '2478',
           shopType: 1,
           reserveMinute: 9,
           randomMinute: 0,

@@ -36,7 +36,15 @@
       "Bash(netstat:*)",
       "Bash(taskkill:*)",
       "Bash(cmd /c \"taskkill /PID 2344 /F\")",
-      "Bash(npx kill-port 3000)"
+      "Bash(npx kill-port 3000)",
+      "Bash(cat:*)",
+      "Bash(powershell -Command \"(Get-Content mt-api.service.ts) -replace \"\"if \\(response.data.code === ''2000''\\) \\{\"\", ''if (response.data.code == 2000) {'' | Set-Content mt-api.service.ts.tmp && Move-Item -Force mt-api.service.ts.tmp mt-api.service.ts\")",
+      "Bash(curl:*)",
+      "Bash(npx prisma db pull:*)",
+      "Bash(cmd /c \"C:\\xampp\\mysql\\bin\\mysql.exe -uroot -proot -e \"\"SELECT id, mobile, province_name, city_name, item_codes FROM imaotai.mt_accounts a LEFT JOIN imaotai.reservation_configs c ON a.id = c.account_id;\"\"\")",
+      "Bash(\"C:\\xampp\\mysql\\bin\\mysql.exe\" -uroot -proot -e \"SELECT id, mobile, province_name, city_name FROM imaotai.mt_accounts;\")",
+      "Bash(cmd /c \"\"\"C:\\xampp\\mysql\\bin\\mysql.exe\"\" -uroot -proot imaotai -e \"\"SELECT id, mobile, province_name, city_name FROM mt_accounts;\"\"\")",
+      "Bash(node -e:*)"
     ],
     "deny": [],
     "ask": []

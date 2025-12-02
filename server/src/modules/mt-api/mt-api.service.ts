@@ -152,14 +152,26 @@ export class MtApiService {
     const dayTime = new Date().setHours(0, 0, 0, 0);
     const url = `${this.STATIC_URL}/mt-backend/xhr/front/mall/index/session/get/${dayTime}`;
 
+    this.logger.log(`获取场次ID请求: url=${url}`);
     const response = await this.http.get(url);
-    if (response.data.code === '2000') {
+    this.logger.log(`获取场次ID响应: code=${response.data.code}, sessionId=${response.data.data?.sessionId}`);
+
+    // 注意：API返回的code是整数类型
+    if (response.data.code == 2000) {
+      // itemList中的商品ID字段是itemCode，需要映射为itemId
+      const itemList = response.data.data.itemList.map((item: any) => ({
+        itemId: item.itemCode,  // 注意：API返回的是itemCode，不是itemId
+        title: item.title,
+        content: item.content,
+        picture: item.picture,
+        price: item.price,
+      }));
       return {
-        sessionId: response.data.data.sessionId,
-        itemList: response.data.data.itemList,
+        sessionId: String(response.data.data.sessionId),
+        itemList,
       };
     }
-    throw new Error('获取场次ID失败');
+    throw new Error(`获取场次ID失败: code=${response.data.code}, message=${response.data.message}`);
   }
 
   /**
@@ -181,6 +193,42 @@ export class MtApiService {
   }
 
   /**
+   * 标准化省份名称（添加正确的后缀）
+   */
+  private normalizeProvinceName(province: string): string {
+    // 如果已经有完整后缀，直接返回
+    if (province.endsWith('省') || province.endsWith('市') ||
+        province.endsWith('自治区') || province.endsWith('特别行政区')) {
+      return province;
+    }
+
+    // 直辖市
+    const municipalities = ['北京', '上海', '天津', '重庆'];
+    if (municipalities.includes(province)) {
+      return province + '市';
+    }
+
+    // 自治区
+    const autonomousRegions: Record<string, string> = {
+      '内蒙古': '内蒙古自治区',
+      '西藏': '西藏自治区',
+      '新疆': '新疆维吾尔自治区',
+      '广西': '广西壮族自治区',
+      '宁夏': '宁夏回族自治区',
+    };
+    if (autonomousRegions[province]) {
+      return autonomousRegions[province];
+    }
+
+    // 特别行政区
+    if (province === '香港') return '香港特别行政区';
+    if (province === '澳门') return '澳门特别行政区';
+
+    // 普通省份
+    return province + '省';
+  }
+
+  /**
    * 获取省市投放门店
    */
   async getShopsByProvince(
@@ -189,13 +237,29 @@ export class MtApiService {
     itemId: string
   ): Promise<any[]> {
     const dayTime = new Date().setHours(0, 0, 0, 0);
-    const url = `${this.STATIC_URL}/mt-backend/xhr/front/mall/shop/list/slim/v3/${sessionId}/${province}/${itemId}/${dayTime}`;
+    // 标准化省份名称并URL编码
+    const normalizedProvince = this.normalizeProvinceName(province);
+    const encodedProvince = encodeURIComponent(normalizedProvince);
+    const url = `${this.STATIC_URL}/mt-backend/xhr/front/mall/shop/list/slim/v3/${sessionId}/${encodedProvince}/${itemId}/${dayTime}`;
 
-    const response = await this.http.get(url);
-    if (response.data.code === '2000') {
-      return response.data.data.shops;
+    this.logger.log(`获取门店列表请求: url=${url}, province=${province}, itemId=${itemId}`);
+
+    try {
+      const response = await this.http.get(url);
+      this.logger.log(`获取门店列表响应: code=${response.data.code}, shops=${response.data.data?.shops?.length || 0}`);
+
+      if (response.data.code == 2000) {
+        return response.data.data.shops || [];
+      }
+      return [];
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        this.logger.error(`获取门店列表失败: 404 - 会话可能已过期，请刷新商品列表`);
+        throw new Error('会话已过期，请刷新商品列表后重试');
+      }
+      this.logger.error(`获取门店列表失败: ${error.message}`);
+      throw error;
     }
-    return [];
   }
 
   /**

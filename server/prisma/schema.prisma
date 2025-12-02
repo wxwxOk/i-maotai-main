@@ -1,4 +1,3 @@
-// 数据库模型定义 (Prisma)
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,68 +7,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 用户表
 model User {
-  id        BigInt   @id @default(autoincrement())
-  openid    String   @unique @db.VarChar(64)
-  unionid   String?  @db.VarChar(64)
-  nickname  String?  @db.VarChar(64)
-  avatarUrl String?  @db.VarChar(255)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  accounts MtAccount[]
+  id        BigInt      @id @default(autoincrement())
+  openid    String      @unique @db.VarChar(64)
+  unionid   String?     @db.VarChar(64)
+  nickname  String?     @db.VarChar(64)
+  avatarUrl String?     @db.VarChar(255)
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
+  accounts  MtAccount[]
 
   @@map("users")
 }
 
-// i茅台账号表
 model MtAccount {
-  id            BigInt    @id @default(autoincrement())
-  userId        BigInt    @map("user_id")
-  mobile        String    @db.VarChar(20)
-  mtUserId      String?   @map("mt_user_id") @db.VarChar(32)
-  token         String?   @db.Text
-  cookie        String?   @db.Text
-  deviceId      String?   @map("device_id") @db.VarChar(64)
-  provinceName  String?   @map("province_name") @db.VarChar(32)
-  cityName      String?   @map("city_name") @db.VarChar(32)
-  lat           String?   @db.VarChar(32)
-  lng           String?   @db.VarChar(32)
-  address       String?   @db.VarChar(255)
-  status        Int       @default(1) @db.TinyInt
-  tokenExpireAt DateTime? @map("token_expire_at")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-
-  user   User                 @relation(fields: [userId], references: [id])
-  config ReservationConfig?
-  logs   ReservationLog[]
+  id            BigInt             @id @default(autoincrement())
+  userId        BigInt             @map("user_id")
+  mobile        String             @db.VarChar(20)
+  mtUserId      String?            @map("mt_user_id") @db.VarChar(32)
+  token         String?            @db.Text
+  cookie        String?            @db.Text
+  deviceId      String?            @map("device_id") @db.VarChar(64)
+  provinceName  String?            @map("province_name") @db.VarChar(32)
+  cityName      String?            @map("city_name") @db.VarChar(32)
+  lat           String?            @db.VarChar(32)
+  lng           String?            @db.VarChar(32)
+  address       String?            @db.VarChar(255)
+  status        Int                @default(1) @db.TinyInt
+  tokenExpireAt DateTime?          @map("token_expire_at")
+  createdAt     DateTime           @default(now()) @map("created_at")
+  updatedAt     DateTime           @updatedAt @map("updated_at")
+  user          User               @relation(fields: [userId], references: [id])
+  config        ReservationConfig?
+  logs          ReservationLog[]
 
   @@index([userId])
   @@index([mobile])
   @@map("mt_accounts")
 }
 
-// 预约配置表
 model ReservationConfig {
-  id            BigInt   @id @default(autoincrement())
-  accountId     BigInt   @unique @map("account_id")
-  itemCodes     String?  @map("item_codes") @db.VarChar(255)
-  shopType      Int      @default(1) @map("shop_type") @db.TinyInt
-  reserveMinute Int      @default(9) @map("reserve_minute") @db.TinyInt
-  randomMinute  Int      @default(0) @map("random_minute") @db.TinyInt
-  autoTravel    Int      @default(1) @map("auto_travel") @db.TinyInt
-  isEnabled     Int      @default(1) @map("is_enabled") @db.TinyInt
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
-
-  account MtAccount @relation(fields: [accountId], references: [id])
+  id            BigInt    @id @default(autoincrement())
+  accountId     BigInt    @unique @map("account_id")
+  itemCodes     String?   @map("item_codes") @db.VarChar(255)
+  shopType      Int       @default(1) @map("shop_type") @db.TinyInt
+  reserveMinute Int       @default(9) @map("reserve_minute") @db.TinyInt
+  randomMinute  Int       @default(0) @map("random_minute") @db.TinyInt
+  autoTravel    Int       @default(1) @map("auto_travel") @db.TinyInt
+  isEnabled     Int       @default(1) @map("is_enabled") @db.TinyInt
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  account       MtAccount @relation(fields: [accountId], references: [id])
 
   @@map("reservation_configs")
 }
 
-// 预约日志表
 model ReservationLog {
   id          BigInt    @id @default(autoincrement())
   accountId   BigInt    @map("account_id")
@@ -81,15 +73,13 @@ model ReservationLog {
   resultMsg   String?   @map("result_msg") @db.Text
   reserveDate DateTime? @map("reserve_date") @db.Date
   createdAt   DateTime  @default(now()) @map("created_at")
-
-  account MtAccount @relation(fields: [accountId], references: [id])
+  account     MtAccount @relation(fields: [accountId], references: [id])
 
   @@index([accountId])
   @@index([reserveDate])
   @@map("reservation_logs")
 }
 
-// 商品表
 model Item {
   id         BigInt   @id @default(autoincrement())
   itemId     String   @unique @map("item_id") @db.VarChar(32)
